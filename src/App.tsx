@@ -5,8 +5,9 @@ import {
   Link
 } from 'react-router-dom';
 
-import logo from './logo.svg';
 import './App.css';
+import LinksList from './links-list/links-list';
+import NewLink from './new-link/new-link';
 
 function App() {
   return (
@@ -18,10 +19,10 @@ function App() {
 
       <Switch>
         <Route exact path="/">
-          Root
+          <LinksList></LinksList>
         </Route>
         <Route path="/newLink">
-          New link
+          <NewLink></NewLink>
         </Route>
       </Switch>
     </div>
