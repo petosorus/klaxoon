@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { VimeoLink } from '../types/vimeo/vimeo-link';
+import { VimeoLink } from '../store/links/types';
 
 const flickrApi: string = "https://www.flickr.com/services/rest/"
 const flickrApiInformation: string = `${flickrApi}?method=flickr.photos.getInfo`
@@ -12,9 +12,9 @@ function getInformation(id: string) {
     return axios.get<VimeoLink>(`${flickrApiInformation}&photo_id=${id}`)
 }
 
-async function getLink(url: string) {
+async function getLink(url: string): Promise<VimeoLink> {
     const id =  parseURL(url);
-    const information: VimeoLink = (await getInformation(id))['data'];
+    return (await getInformation(id))['data'];
 }
 
 export {

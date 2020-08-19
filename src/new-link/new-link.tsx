@@ -1,13 +1,21 @@
 import React from 'react';
 import { getLink as getFlickrLink } from './flickr-handler'
 import { getLink as getVimeoLink } from './vimeo-handler'
+import { createLink } from '../store/links/actions';
+import { connect, ConnectedProps } from 'react-redux';
+import { Link } from '../store/links/types';
 
 interface NewLinkState {
     link: string
 }
 
-class NewLink extends React.Component<{}, NewLinkState> {
-    constructor(props: any) {
+const connector = connect(
+    null,
+    { createLink }
+)
+
+class NewLink extends React.Component<ConnectedProps<typeof connector>, NewLinkState> {
+    constructor(props: ConnectedProps<typeof connector>) {
         super(props);
         this.state = {
             link: ''
@@ -16,12 +24,23 @@ class NewLink extends React.Component<{}, NewLinkState> {
     handleChange= (event: React.FormEvent<HTMLInputElement>) => { 
         this.setState({link: event.currentTarget.value});
     }
-    handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        let link: Link;
         if (this.state.link.indexOf('flickr') !== -1) {
-            getFlickrLink(this.state.link)
+            link = await getFlickrLink(this.state.link)
         } else if (this.state.link.indexOf('vimeo') !== -1) {
-            getVimeoLink(this.state.link)
+            link = await getVimeoLink(this.state.link)
+        } else {
+            link = {
+                author: '',
+                date: '',
+                height: 0,
+                title: '',
+                url: '',
+                width: 0
+            }
         }
+        this.props.createLink(link)
         event.preventDefault();
     }
 
@@ -38,4 +57,4 @@ class NewLink extends React.Component<{}, NewLinkState> {
     }
 }
 
-export default NewLink;
+export default connector(NewLink);

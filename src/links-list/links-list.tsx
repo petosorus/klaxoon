@@ -1,4 +1,16 @@
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { RootState } from '../store';
+
+function mapStateToProps(state: RootState) {
+    return {
+        links: state.link.links
+    }
+}
+
+const connector = connect(
+    mapStateToProps
+)
 
 function ListItem(props: any) {
     return (
@@ -6,12 +18,8 @@ function ListItem(props: any) {
     )
 }
 
-function LinksList() {
-    const links: any[] = [{
-        url: 'toto',
-        title: 'toto'
-    }]
-    const list = links.map(link => {
+function LinksList(props: ConnectedProps<typeof connector>) {
+    const list = props.links.map(link => {
         return <ListItem key={link.url} value={link}/>
     })
 
@@ -22,4 +30,4 @@ function LinksList() {
     )
 }
 
-export default LinksList;
+export default connector(LinksList);
