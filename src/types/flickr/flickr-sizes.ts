@@ -1,5 +1,7 @@
 export interface FlickrSizes {
-    size: Array<FlickrSize>
+    sizes: {
+        size: Array<FlickrSize>
+    }
 }
 
 export interface FlickrSize {

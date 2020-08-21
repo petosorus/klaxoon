@@ -25,23 +25,15 @@ class NewLink extends React.Component<ConnectedProps<typeof connector>, NewLinkS
         this.setState({link: event.currentTarget.value});
     }
     handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         let link: Link;
         if (this.state.link.indexOf('flickr') !== -1) {
             link = await getFlickrLink(this.state.link)
+            this.props.createLink(link)
         } else if (this.state.link.indexOf('vimeo') !== -1) {
             link = await getVimeoLink(this.state.link)
-        } else {
-            link = {
-                author: '',
-                date: '',
-                height: 0,
-                title: '',
-                url: '',
-                width: 0
-            }
+            this.props.createLink(link)
         }
-        this.props.createLink(link)
-        event.preventDefault();
     }
 
     render() {

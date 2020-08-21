@@ -2,8 +2,9 @@ import axios from 'axios';
 import { FlickrSizes, FlickrSize } from '../types/flickr/flickr-sizes';
 import { FlickrInformation } from '../types/flickr/flickr-information';
 import { Link } from '../store/links/types';
+import { find } from 'lodash';
 
-const flickrApi: string = `https://www.flickr.com/services/rest/?format=json&api_key=${process.env.REACT_APP_FLICKR_API_KEY}`
+const flickrApi: string = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=?&api_key=${process.env.REACT_APP_FLICKR_API_KEY}`
 const flickrApiSizes: string = `${flickrApi}&method=flickr.photos.getSizes`
 const flickrApiInformation: string = `${flickrApi}&method=flickr.photos.getInfo`
 
@@ -12,7 +13,7 @@ function parseURL(url: string): string {
 }
 
 function getSizes(id: string) {
-    return axios.get<FlickrSizes>(`${flickrApiSizes}&photo_id=${id}`)
+    return axios.get(`${flickrApiSizes}&photo_id=${id}`)
 }
 
 function getInformation(id: string) {
@@ -22,18 +23,27 @@ function getInformation(id: string) {
 async function getLink(url: string): Promise<Link> {
     const id =  parseURL(url);
     const sizes: FlickrSizes = (await getSizes(id))['data'];
-    const originalSize: FlickrSize = find(sizes, (size: any) => {
-        return size["Label"] === "Original"
+    let retainedSize = find(sizes.sizes.size, (size: FlickrSize) => {
+        return size["label"] === "Original"
     })
-    const information: FlickrInformation = (await getInformation(id))['data'];
+    if (retainedSize === undefined) {
+        retainedSize = find(sizes.sizes.size, (size: FlickrSize) => {
+            return size["label"] === "Large"
+        })
+        if (retainedSize === undefined) {
+            throw new Error('No size information found')
+        }
+    } 
 
+    const information: FlickrInformation = (await getInformation(id))['data'];
+    
     return {
-        title: information.title._content,
-        author: information.owner.username,
-        url: information.url._content,
-        date: information.dates.posted,
-        height: originalSize.height,
-        width: originalSize.width
+        title: information.photo.title._content,
+        author: information.photo.owner.username,
+        url: information.photo.urls.url[0]._content,
+        date: information.photo.dates.posted,
+        height: retainedSize.height,
+        width: retainedSize.width
     }
 }
 
