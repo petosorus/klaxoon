@@ -1,20 +1,20 @@
 import React from 'react';
 import { getLink as getFlickrLink } from './flickr-handler'
-import { getLink as getVimeoLink } from './vimeo-handler'
-import { createLink } from '../store/links/actions';
+import { getLink as getBookmark } from './vimeo-handler'
+import { createBookmark } from '../store/bookmark/actions';
 import { connect, ConnectedProps } from 'react-redux';
-import { Link } from '../store/links/types';
+import { Bookmark } from '../store/bookmark/types';
 
-interface NewLinkState {
+interface NewBookmarkState {
     link: string
 }
 
 const connector = connect(
     null,
-    { createLink }
+    { createLink: createBookmark }
 )
 
-class NewLink extends React.Component<ConnectedProps<typeof connector>, NewLinkState> {
+class NewBookmark extends React.Component<ConnectedProps<typeof connector>, NewBookmarkState> {
     constructor(props: ConnectedProps<typeof connector>) {
         super(props);
         this.state = {
@@ -26,12 +26,12 @@ class NewLink extends React.Component<ConnectedProps<typeof connector>, NewLinkS
     }
     handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        let link: Link;
+        let link: Bookmark;
         if (this.state.link.indexOf('flickr') !== -1) {
             link = await getFlickrLink(this.state.link)
             this.props.createLink(link)
         } else if (this.state.link.indexOf('vimeo') !== -1) {
-            link = await getVimeoLink(this.state.link)
+            link = await getBookmark(this.state.link)
             this.props.createLink(link)
         }
     }
@@ -49,4 +49,4 @@ class NewLink extends React.Component<ConnectedProps<typeof connector>, NewLinkS
     }
 }
 
-export default connector(NewLink);
+export default connector(NewBookmark);

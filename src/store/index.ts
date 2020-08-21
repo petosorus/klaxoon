@@ -1,14 +1,14 @@
 import { combineReducers, createStore } from 'redux';
-import { linkReducer } from './links/reducers'
-import { LinkState } from './links/types';
+import { bookmarkReducer } from './bookmark/reducers'
+import { BookmarkState } from './bookmark/types';
 
 export interface RootState {
-    link: LinkState
+    bookmark: BookmarkState
 }
 
 const store = createStore<RootState, any, any, any>(
     combineReducers({
-        link: linkReducer
+        bookmark: bookmarkReducer
     })
 );
 

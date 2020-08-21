@@ -6,23 +6,23 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
-import LinksList from './links-list/links-list';
-import NewLink from './new-link/new-link';
+import BookmarksList from './bookmark-list/bookmark-list';
+import NewBookmark from './new-link/new-bookmark';
 
 function App() {
   return (
     <div className="App">
       <nav>
-        <Link to="/">root</Link>
-        <Link to="/newLink">new link</Link>
+        <Link to="/">Bookmarks</Link>
+        <Link to="/newBookmark">New bookmark</Link>
       </nav>
 
       <Switch>
         <Route exact path="/">
-          <LinksList></LinksList>
+          <BookmarksList></BookmarksList>
         </Route>
-        <Route path="/newLink">
-          <NewLink></NewLink>
+        <Route path="/newBookmark">
+          <NewBookmark></NewBookmark>
         </Route>
       </Switch>
     </div>
