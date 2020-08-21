@@ -9,7 +9,7 @@ export interface FlickrInformation {
         posted: string
     },
     url: {
-        _content: URL
+        _content: string
     },
 
 }

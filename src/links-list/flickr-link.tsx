@@ -1,19 +1,15 @@
 import React from 'react';
-import FlickrLink from './flickr-link'
 
-function LinksList() {
+function FlickrLink() {
     const links: any[] = [{
         url: 'toto',
         title: 'toto'
     }]
-    const list = links.map(link => {
-        return <FlickrLink/>
-    })
 
     return (
-        <ul>
+        <li>
             {list}
-        </ul>
+        </li>
     )
 }
 
