@@ -2,7 +2,7 @@ export interface FlickrSizes {
     size: Array<FlickrSize>
 }
 
-interface FlickrSize {
+export interface FlickrSize {
     label: string,
     width: number,
     height: number
