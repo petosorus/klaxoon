@@ -20,7 +20,7 @@ function getInformation(id: string) {
     return axios.get<FlickrInformation>(`${flickrApiInformation}&photo_id=${id}`)
 }
 
-async function getLink(url: string): Promise<Bookmark> {
+async function getBookmark(url: string): Promise<Bookmark> {
     const id =  parseURL(url);
     const sizes: FlickrSizes = (await getSizes(id))['data'];
     let retainedSize = find(sizes.sizes.size, (size: FlickrSize) => {
@@ -49,5 +49,5 @@ async function getLink(url: string): Promise<Bookmark> {
 }
 
 export {
-    getLink
+    getBookmark
 }
