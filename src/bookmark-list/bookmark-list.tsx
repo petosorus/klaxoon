@@ -20,8 +20,7 @@ const connector = connect(
 function PictureItem(props: ItemProps) {
     return (
         <li> 📷 <a href={props.value.url}>{props.value.title}</a>, 
-            by {props.value.author} 
-            on {props.value.date.toLocaleDateString()}.
+            by {props.value.author} on {props.value.date.toLocaleDateString()}.
             Width:{props.value.width}px, 
             height: {props.value.height}px.
         </li>
@@ -31,8 +30,7 @@ function PictureItem(props: ItemProps) {
 function VideoItem(props: ItemProps) {
     return (
         <li> 🎬 <a href={props.value.url}>{props.value.title}</a>, 
-            by {props.value.author} 
-            on {props.value.date.toLocaleDateString()}.
+            by {props.value.author} on {props.value.date.toLocaleDateString()}.
             Width: {props.value.width}px, 
             height: {props.value.height}px, 
             duration: {props.value.duration}s.
