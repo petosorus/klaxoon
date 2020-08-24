@@ -28,7 +28,8 @@ async function getBookmark(url: string): Promise<Bookmark> {
         date: new Date(information.release_time),
         height: information.height,
         width: information.width,
-        duration: information.duration
+        duration: information.duration,
+        tags: []
     }
 }
 

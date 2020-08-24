@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../store';
-import { Bookmark } from '../store/bookmark/types';
+import { Bookmark, Tag } from '../store/bookmark/types';
+import { addTag } from '../store/bookmark/actions';
 
 interface ItemProps {
     value: Bookmark
@@ -14,7 +15,8 @@ function mapStateToProps(state: RootState) {
 }
 
 const connector = connect(
-    mapStateToProps
+    mapStateToProps,
+    { addTag }
 )
 
 function PictureItem(props: ItemProps) {
@@ -23,6 +25,8 @@ function PictureItem(props: ItemProps) {
             by {props.value.author} on {props.value.date.toLocaleDateString()}.
             Width:{props.value.width}px, 
             height: {props.value.height}px.
+            <br/>
+            <Tags value={props.value.tags}/>
         </li>
     )
 }
@@ -34,6 +38,8 @@ function VideoItem(props: ItemProps) {
             Width: {props.value.width}px, 
             height: {props.value.height}px, 
             duration: {props.value.duration}s.
+            <br/>
+            <Tags value={props.value.tags}/>
         </li>
     )
 }

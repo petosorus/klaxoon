@@ -44,7 +44,8 @@ async function getBookmark(url: string): Promise<Bookmark> {
         date: new Date(parseInt(information.photo.dates.posted, 10) * 1000), // We get a timestamp in seconds, Date needs milliseconds
         height: retainedSize.height,
         width: retainedSize.width,
-        duration: 0
+        duration: 0,
+        tags: []
     }
 }
 
