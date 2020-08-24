@@ -1,20 +1,35 @@
 import axios from 'axios';
 import { Bookmark } from '../store/bookmark/types';
+import { VimeoInformation } from '../types/vimeo/vimeo-information';
 
-const flickrApi: string = "https://www.flickr.com/services/rest/"
-const flickrApiInformation: string = `${flickrApi}?method=flickr.photos.getInfo`
+const vimeoApi: string = "https://api.vimeo.com/"
+const vimeoApivideo: string = `${vimeoApi}/videos/`
 
 function parseURL(url: string): string {
-    return url.split('/')[5];    
+    return url.split('/')[3];
 }
 
 function getInformation(id: string) {
-    return axios.get<Bookmark>(`${flickrApiInformation}&photo_id=${id}`)
+    return axios.get<VimeoInformation>(`${vimeoApivideo}/${id}`, {
+        headers: {
+            Authorization: 'Bearer ' + process.env.REACT_APP_VIMEO_API_KEY
+        }
+    })
 }
 
 async function getBookmark(url: string): Promise<Bookmark> {
     const id =  parseURL(url);
-    return (await getInformation(id))['data'];
+    const information = (await getInformation(id))['data'];
+
+    return {
+        title: information.name,
+        author: information.user.name,
+        url: information.link,
+        date: new Date(information.release_time),
+        height: information.height,
+        width: information.width,
+        duration: information.duration
+    }
 }
 
 export {
