@@ -1,12 +1,12 @@
-import axios from 'axios';
-import { Bookmark } from '../store/bookmark/types';
-import { VimeoInformation } from '../types/vimeo/vimeo-information';
+import axios from 'axios'
+import { Bookmark } from '../store/bookmark/types'
+import { VimeoInformation } from '../types/vimeo/vimeo-information'
 
 const vimeoApi: string = "https://api.vimeo.com/"
 const vimeoApivideo: string = `${vimeoApi}/videos/`
 
 function parseURL(url: string): string {
-    return url.split('/')[3];
+    return url.split('/')[3]
 }
 
 function getInformation(id: string) {
@@ -18,8 +18,8 @@ function getInformation(id: string) {
 }
 
 async function getBookmark(url: string): Promise<Bookmark> {
-    const id =  parseURL(url);
-    const information = (await getInformation(id))['data'];
+    const id =  parseURL(url)
+    const information = (await getInformation(id))['data']
 
     return {
         title: information.name,

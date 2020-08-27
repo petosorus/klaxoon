@@ -1,12 +1,14 @@
-import React from 'react';
+import React from 'react'
 import { getBookmark as getFlickrBookmark } from './flickr-handler'
 import { getBookmark as getVimeoBookmark } from './vimeo-handler'
-import { createBookmark } from '../store/bookmark/actions';
-import { connect, ConnectedProps } from 'react-redux';
-import { Bookmark } from '../store/bookmark/types';
+import { createBookmark } from '../store/bookmark/actions'
+import { connect, ConnectedProps } from 'react-redux'
+import { Bookmark } from '../store/bookmark/types'
+import { useHistory, Redirect } from 'react-router-dom'
 
 interface NewBookmarkState {
-    link: string
+    link: string,
+    navigate: boolean
 }
 
 const connector = connect(
@@ -16,27 +18,35 @@ const connector = connect(
 
 class NewBookmark extends React.Component<ConnectedProps<typeof connector>, NewBookmarkState> {
     constructor(props: ConnectedProps<typeof connector>) {
-        super(props);
+        super(props)
         this.state = {
-            link: ''
-        };
+            link: '',
+            navigate: false
+        }
     }
     handleChange= (event: React.FormEvent<HTMLInputElement>) => { 
-        this.setState({link: event.currentTarget.value});
+        this.setState({link: event.currentTarget.value})
     }
     handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        let link: Bookmark;
+        event.preventDefault()
+        let link: Bookmark
         if (this.state.link.indexOf('flickr') !== -1) {
             link = await getFlickrBookmark(this.state.link)
             this.props.createBookmark(link)
+            this.setState({navigate: true})
         } else if (this.state.link.indexOf('vimeo') !== -1) {
             link = await getVimeoBookmark(this.state.link)
             this.props.createBookmark(link)
+            this.setState({navigate: true})
         }
+        
     }
 
     render() {
+        if (this.state.navigate) {
+            return <Redirect to="/" />
+        }
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
@@ -49,4 +59,4 @@ class NewBookmark extends React.Component<ConnectedProps<typeof connector>, NewB
     }
 }
 
-export default connector(NewBookmark);
+export default connector(NewBookmark)

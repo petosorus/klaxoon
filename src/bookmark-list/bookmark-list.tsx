@@ -1,7 +1,7 @@
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../store';
-import { Bookmark } from '../store/bookmark/types';
+import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { RootState } from '../store'
+import { Bookmark } from '../store/bookmark/types'
 
 interface ItemProps {
     value: Bookmark
@@ -55,4 +55,4 @@ function BookmarksList(props: ConnectedProps<typeof connector>) {
     )
 }
 
-export default connector(BookmarksList);
+export default connector(BookmarksList)

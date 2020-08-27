@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 import {
   Switch,
   Route,
   Link
-} from 'react-router-dom';
+} from 'react-router-dom'
 
-import './App.css';
-import BookmarksList from './bookmark-list/bookmark-list';
-import NewBookmark from './new-link/new-bookmark';
+import './App.css'
+import BookmarksList from './bookmark-list/bookmark-list'
+import NewBookmark from './new-link/new-bookmark'
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
         </Route>
       </Switch>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

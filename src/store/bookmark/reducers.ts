@@ -1,4 +1,4 @@
-import { BookmarkState, BookmarkActionTypes, NEW_BOOKMARK } from "./types";
+import { BookmarkState, BookmarkActionTypes, NEW_BOOKMARK } from "./types"
 
 const initialState: BookmarkState = {
     bookmarks: []

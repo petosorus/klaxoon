@@ -1,15 +1,15 @@
-import axios from 'axios';
-import { FlickrSizes, FlickrSize } from '../types/flickr/flickr-sizes';
-import { FlickrInformation } from '../types/flickr/flickr-information';
-import { Bookmark } from '../store/bookmark/types';
-import { find } from 'lodash';
+import axios from 'axios'
+import { FlickrSizes, FlickrSize } from '../types/flickr/flickr-sizes'
+import { FlickrInformation } from '../types/flickr/flickr-information'
+import { Bookmark } from '../store/bookmark/types'
+import { find } from 'lodash'
 
 const flickrApi: string = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=?&api_key=${process.env.REACT_APP_FLICKR_API_KEY}`
 const flickrApiSizes: string = `${flickrApi}&method=flickr.photos.getSizes`
 const flickrApiInformation: string = `${flickrApi}&method=flickr.photos.getInfo`
 
 function parseURL(url: string): string {
-    return url.split('/')[5];    
+    return url.split('/')[5]    
 }
 
 function getSizes(id: string) {
@@ -21,8 +21,8 @@ function getInformation(id: string) {
 }
 
 async function getBookmark(url: string): Promise<Bookmark> {
-    const id =  parseURL(url);
-    const sizes: FlickrSizes = (await getSizes(id))['data'];
+    const id =  parseURL(url)
+    const sizes: FlickrSizes = (await getSizes(id))['data']
     let retainedSize = find(sizes.sizes.size, (size: FlickrSize) => {
         return size["label"] === "Original"
     })
@@ -35,7 +35,7 @@ async function getBookmark(url: string): Promise<Bookmark> {
         }
     } 
 
-    const information: FlickrInformation = (await getInformation(id))['data'];
+    const information: FlickrInformation = (await getInformation(id))['data']
     
     return {
         title: information.photo.title._content,
